@@ -134,9 +134,6 @@ h1{font-size:22px;margin:0 0 4px 0;letter-spacing:-.03em;color:#0f172a}
 .law-line{font-size:12px;color:var(--law-fg);line-height:1.5}
 .law-line .law-name{display:inline-block;padding:2px 9px;border-radius:999px;background:var(--law-bg);color:var(--law-fg);font-weight:500;margin-right:4px}
 .law-line + .law-line{margin-top:3px}
-.tags-toggle{display:inline-flex;align-items:center;gap:3px;margin-top:4px;padding:2px 7px;border-radius:999px;font-size:11px;color:#64748b;background:#f1f5f9;border:none;cursor:pointer;font-family:inherit;transition:background .12s}
-.tags-toggle:hover{background:#e2e8f0;color:#334155}
-.tags-collapsed .memo-tags{display:none}
 .user-memo-wrap{margin-top:5px}
 .user-memo-input{width:100%;border:0.5px solid #e2e8f0;border-radius:6px;padding:5px 8px;font-size:12px;color:#334155;background:#f8fafc;font-family:inherit;resize:none;line-height:1.5;transition:border-color .15s,background .15s;box-sizing:border-box;min-height:28px;overflow:hidden;scrollbar-width:none}
 .user-memo-input::-webkit-scrollbar{display:none}
@@ -154,6 +151,37 @@ h1{font-size:22px;margin:0 0 4px 0;letter-spacing:-.03em;color:#0f172a}
 .smc-btn.danger:hover{color:#b42318;border-color:#ffd2cc;background:#fff8f7}
 .smc-notice{margin-top:6px;font-size:10.5px;color:#2563eb;display:flex;align-items:center;gap:4px}
 .smc-notice button{border:none;background:none;color:#2563eb;font-size:10.5px;font-weight:700;cursor:pointer;padding:0;font-family:inherit;text-decoration:underline}
+.month-picker-modal[hidden]{display:none}
+.month-picker-modal{position:fixed;inset:0;z-index:3000}
+.month-picker-backdrop{position:absolute;inset:0;background:rgba(15,23,42,.34)}
+.month-picker-dialog{position:relative;z-index:1;width:min(420px,calc(100vw - 28px));margin:8vh auto 0;background:#fff;border:1px solid #dbe5f2;border-radius:18px;box-shadow:0 24px 64px rgba(15,23,42,.22);padding:18px 18px 16px}
+.month-picker-head{font-size:20px;font-weight:800;color:#111827;letter-spacing:-.03em;margin-bottom:4px}
+.month-picker-sub{font-size:13px;color:#64748b;margin-bottom:16px;line-height:1.5}
+.month-picker-frame{border:1px solid #e5eaf2;border-radius:16px;background:linear-gradient(180deg,#fbfdff 0%,#ffffff 100%);padding:12px}
+.month-picker-yearbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.month-picker-year{font-size:28px;font-weight:800;color:#0f172a;letter-spacing:-.03em}
+.month-picker-nav{width:34px;height:34px;border:none;border-radius:999px;background:#f1f5f9;color:#475569;font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center;font-family:inherit}
+.month-picker-nav:hover{background:#e2e8f0;color:#0f172a}
+.month-picker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.month-tile{position:relative;min-height:68px;border:1px solid #e2e8f0;border-radius:14px;background:#fff;color:#334155;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:transform .12s ease,border-color .12s ease,box-shadow .12s ease}
+.month-tile:hover{border-color:#bfdbfe;box-shadow:0 8px 18px rgba(37,99,235,.08);transform:translateY(-1px)}
+.month-tile.is-selected{border-color:#93c5fd;background:#eff6ff;color:#1d4ed8;box-shadow:inset 0 0 0 1px #bfdbfe,0 10px 20px rgba(37,99,235,.12)}
+.month-tile.is-selected::after{content:'';position:absolute;width:42px;height:42px;border-radius:999px;background:#1a73e8;z-index:0}
+.month-tile.is-selected .month-tile-label{position:relative;z-index:1;color:#fff}
+.month-picker-preview{margin-top:12px;padding:10px 12px;border-radius:12px;background:#f8fafc;color:#475569;font-size:13px}
+.month-picker-preview strong{color:#0f172a}
+.month-picker-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
+.month-picker-btn{min-width:74px;height:40px;padding:0 16px;border:1px solid #dbe5f2;border-radius:12px;background:#fff;color:#334155;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.month-picker-btn:hover{background:#f8fafc}
+.month-picker-btn.primary{border-color:#1a73e8;background:#1a73e8;color:#fff;box-shadow:0 10px 18px rgba(26,115,232,.22)}
+.month-picker-btn.primary:hover{background:#1765cd}
+@media (max-width:680px){
+  .month-picker-dialog{margin:4vh auto 0;padding:16px 14px 14px}
+  .month-picker-year{font-size:24px}
+  .month-picker-grid{gap:8px}
+  .month-tile{min-height:58px;font-size:14px}
+  .month-tile.is-selected::after{width:36px;height:36px}
+}
 .empty{padding:40px;text-align:center;color:var(--muted)}
 .footer{margin-top:24px;padding:12px 4px;font-size:11px;color:var(--muted2);letter-spacing:.02em}
 .footer .org{font-weight:600;color:var(--muted)}
@@ -173,31 +201,71 @@ h1{font-size:22px;margin:0 0 4px 0;letter-spacing:-.03em;color:#0f172a}
   .thead > div:nth-child(5),.row > div:nth-child(5){grid-column:1/-1;border-top:1px dashed var(--wrks-viz-border);padding-top:10px}
   .routine-check{width:16px;height:16px}
 }
+
+/* v.2026.6.20 — 업무 대시보드보다 '언제·업무분장·할 일'을 먼저 보이게 하는 패치 */
+.kpis{display:none!important}
+.wrap{max-width:1180px}
+.sub{font-size:15px;color:#64748b;margin-bottom:18px}
+.beginner-hero{margin-bottom:14px;background:linear-gradient(135deg,#f8fbff 0%,#f4f9ff 100%);border:1px solid #e6eef8;box-shadow:0 10px 28px rgba(15,23,42,.035)}
+.beginner-eyebrow,.panel-eyebrow,.content-eyebrow{color:#2563eb;font-weight:800;letter-spacing:-.01em}
+.beginner-title{font-size:24px;letter-spacing:-.04em;color:#0f172a}
+.beginner-desc{font-size:14.5px;color:#475569;line-height:1.65}
+.task-first-panel{background:#fff;border:1px solid #e6edf6;border-radius:22px;padding:22px;margin:0 0 18px;box-shadow:0 14px 34px rgba(15,23,42,.045)}
+.task-first-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
+.task-first-head h2{margin:4px 0 7px;font-size:25px;letter-spacing:-.045em;color:#0f172a;line-height:1.25}
+.task-first-head p{margin:0;color:#64748b;font-size:14.5px;line-height:1.65}.task-first-head strong{color:#1d4ed8}
+.panel-now{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:92px;padding:9px 13px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:13px;font-weight:800;border:1px solid #dbeafe;font-family:inherit;cursor:pointer}
+.quick-filter-grid{display:grid;grid-template-columns:1fr 1.7fr;gap:14px}.quick-filter-block{background:#f8fafc;border:1px solid #edf2f7;border-radius:16px;padding:14px}.quick-filter-label{font-size:13px;font-weight:850;color:#334155;margin-bottom:10px;letter-spacing:-.02em}.quick-chip-row{display:flex;flex-wrap:wrap;gap:8px}.quick-chip{border:1px solid #dbe5f2;background:#fff;color:#334155;border-radius:999px;padding:8px 13px;font-family:inherit;font-size:13px;font-weight:750;cursor:pointer;transition:all .14s ease}.quick-chip:hover{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}.quick-chip.active{background:#1d4ed8;border-color:#1d4ed8;color:#fff;box-shadow:0 5px 12px rgba(29,78,216,.18)}.quick-chip.is-all.active{background:#0f172a;border-color:#0f172a}.quick-chip .qcnt{opacity:.72;margin-left:5px;font-weight:700}#quick-periods .quick-chip,#quick-cats .quick-chip{padding:10px 15px;font-size:14px;font-weight:800}#quick-periods .quick-chip .qcnt,#quick-cats .quick-chip .qcnt{font-size:12px}#period-list,#quick-periods,#quick-cats,#cat-list{display:block}.picker-wrap{display:flex;flex-direction:column;gap:10px}.summary-btn{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:0;background:transparent;border:none;font-family:inherit;cursor:pointer;color:#0f172a;font-size:15px;font-weight:850}.summary-btn .cnt{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 10px;border-radius:999px;background:#f1f5f9;color:#475569;font-size:12px;font-weight:800}.summary-btn.active{color:#1d4ed8}.summary-btn.active .cnt{background:#dbeafe;color:#1d4ed8}.divider-line{height:1px;background:#e5eaf2;width:100%}.chip-grid{display:flex;flex-wrap:wrap;gap:10px}.chip-grid .checkmark{font-weight:800}#quick-periods .chip-grid .quick-chip,#quick-cats .chip-grid .quick-chip{margin:0}#period-list .chip-grid .item,#cat-list .chip-grid .item{margin:0}#period-list .item,#cat-list .item{justify-content:flex-start;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid #dbe5f2;background:#fff;font-size:15px;font-weight:700;line-height:1.2;box-shadow:0 2px 8px rgba(15,23,42,.03);font-family:inherit;cursor:pointer}#period-list .item:hover,#cat-list .item:hover{background:#f8fbff;border-color:#c7d7ee}#period-list .item.active,#period-list .item.is-multi-selected,#cat-list .item.active,#cat-list .item.is-multi-selected{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8;box-shadow:0 4px 12px rgba(37,99,235,.10)}#period-list .item .cnt,#cat-list .item .cnt{display:inline-flex;align-items:center;justify-content:center;min-width:26px;padding:2px 8px;border-radius:999px;background:#f1f5f9;color:#64748b;font-size:12px;font-weight:700}#period-list .item.active .cnt,#period-list .item.is-multi-selected .cnt,#cat-list .item.active .cnt,#cat-list .item.is-multi-selected .cnt{background:#dbeafe;color:#1d4ed8}
+.main{grid-template-columns:260px 1fr;gap:18px}.side{top:76px}.side h3{font-size:13.5px;color:#1e293b;margin-top:12px}.side .item{border-radius:12px;padding:9px 10px}.side .item.active{background:#eef6ff;border-color:#bfdbfe;color:#1d4ed8;box-shadow:none}.content{background:transparent;border:0;box-shadow:none}.content-intro{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;background:#fff;border:1px solid #e6edf6;border-radius:20px;padding:18px 20px;margin-bottom:12px;box-shadow:0 10px 26px rgba(15,23,42,.035)}.content-intro h2{margin:3px 0 5px;font-size:23px;letter-spacing:-.04em;color:#0f172a}.content-intro p{margin:0;color:#64748b;font-size:14px;line-height:1.55}.content-count{display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;background:#f8fafc;border:1px solid #e5eaf2;color:#334155;font-size:13px;font-weight:800;white-space:nowrap}.toolbar{background:#fff;border:1px solid #e6edf6;border-radius:18px;padding:12px;margin-bottom:10px;box-shadow:0 8px 20px rgba(15,23,42,.03)}.filter-summary{position:static!important;border:1px solid #e6edf6;border-radius:16px;background:#fff;margin-bottom:10px}.thead{display:none!important}.row{display:grid;grid-template-columns:42px 142px 108px minmax(0,1fr);gap:13px;align-items:start;background:#fff;border:1px solid #e6edf6;border-radius:18px;padding:15px 16px;margin-bottom:10px;box-shadow:0 8px 20px rgba(15,23,42,.028)}.row:hover{background:#fff;box-shadow:0 10px 24px rgba(15,23,42,.05);transform:translateY(-1px)}.row .date{font-size:15px;color:#0f172a;font-weight:850;line-height:1.35}.row .cat{font-size:12.5px;font-weight:800}.task-name{font-size:16px;font-weight:850;line-height:1.42;margin-bottom:5px}.task-detail{font-size:13.5px;line-height:1.65;color:#475569}.memo-cell{grid-column:4/5;margin-top:6px;border-top:1px dashed #e8eef6;padding-top:10px}.user-memo-wrap{margin-top:0;margin-bottom:6px}.user-memo-input{background:#fbfdff;border-color:#dde7f3;border-radius:10px;min-height:34px}.memo-text{background:#fff8ed;border:1px solid #fed7aa;border-radius:10px;color:#9a3412;padding:7px 9px;font-size:12.5px}.law-line{font-size:12px;color:#64748b}.law-line .law-name{background:#f1f5f9;color:#475569}.empty{background:#fff;border:1px solid #e6edf6;border-radius:18px}.footer{border-top:1px solid #eef2f7;margin-top:20px}
+@media (max-width:900px){.quick-filter-grid{grid-template-columns:1fr}.task-first-head,.content-intro{align-items:flex-start;flex-direction:column}.main{grid-template-columns:1fr}.side{position:static;order:-1}.row{grid-template-columns:34px minmax(88px,.55fr) minmax(78px,.45fr);gap:10px}.row>div:nth-child(4){grid-column:2/-1}.memo-cell{grid-column:1/-1}.toolbar{align-items:stretch}.search{min-width:100%}}
+@media (max-width:560px){.wrap{padding:74px 12px 24px}.beginner-title,.task-first-head h2{font-size:21px}.content-intro h2{font-size:20px}.task-first-panel,.content-intro{border-radius:18px;padding:16px}.quick-chip{padding:7px 10px;font-size:12.5px}.row{padding:13px;border-radius:16px}.row .date{font-size:14px}.task-name{font-size:15px}}
+
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>행정실 루틴집 (학교 행정실 반복업무 요약zip)</h1>
-  <div class="sub">엑셀 필터처럼 업무분장·주기·검색을 조합해 필요한 루틴만 골라보세요.</div>
+  <h1>행정실 루틴집</h1>
+  <div class="sub">이번 달에, 내 업무분장 기준으로, 먼저 챙길 일을 바로 확인하세요.</div>
 
   <section class="beginner-hero" aria-label="처음 사용자 안내">
     <div>
-      <div class="beginner-eyebrow">처음이라면 여기부터</div>
-      <div class="beginner-title">이번 달 먼저 볼 루틴</div>
-      <div class="beginner-desc">처음이라면 매월 반복 업무부터 확인하세요. 내 업무분장을 여러 개 선택하면 필요한 루틴만 골라볼 수 있어요.</div>
+      <div class="beginner-eyebrow">이번 달 업무 체크</div>
+      <div class="beginner-title">언제 · 업무분장 · 할 일 순서로 보여드릴게요</div>
+      <div class="beginner-desc">먼저 반복 시기를 고르고, 내 업무분장을 선택하면 지금 챙겨야 할 업무만 카드로 정리됩니다.</div>
     </div>
     <div class="beginner-actions">
-      <button class="beginner-btn primary" type="button" id="hero-monthly-btn">매월 업무 보기</button>
-      <button class="beginner-btn" type="button" id="hero-all-btn">전체 일정 보기</button>
+      <button class="beginner-btn primary" type="button" id="hero-monthly-btn">이번 달 반복업무</button>
+      <button class="beginner-btn" type="button" id="hero-all-btn">전체 업무 보기</button>
     </div>
   </section>
 
-  <div class="kpis">
+  <div class="kpis" aria-hidden="true">
     <div class="kpi" data-quick-period="매월 반복"><div class="lbl">매월 챙길 업무</div><div class="hint">매달 반복되는 기본 루틴</div><div class="num" id="kpi-monthly">0</div></div>
     <div class="kpi" data-quick-period="분기/연간"><div class="lbl">분기·연간 업무</div><div class="hint">시기 놓치면 안 되는 업무</div><div class="num" id="kpi-annual">0</div></div>
     <div class="kpi" data-quick-period="수시"><div class="lbl">수시 업무</div><div class="hint">필요할 때 확인하는 업무</div><div class="num" id="kpi-adhoc">0</div></div>
     <div class="kpi" data-quick-period="전체"><div class="lbl">전체 업무</div><div class="hint">모든 루틴 한 번에 보기</div><div class="num" id="kpi-total">0</div></div>
   </div>
+
+  <section class="task-first-panel" aria-label="업무 먼저 보기">
+    <div class="task-first-head">
+      <div>
+        <div class="panel-eyebrow">먼저 고르기</div>
+        <h2>언제 하는 업무인지 먼저 보고, 내 업무분장만 좁혀보세요.</h2>
+        <p>기본값은 <strong>매월 반복업무</strong>입니다. 급여·지출·시설처럼 내 담당 업무를 누르면 필요한 카드만 남아요.</p>
+      </div>
+      <button class="panel-now" id="task-first-now" type="button" onclick="changeCheckMonth()">이번 달</button>
+    </div>
+    <div class="quick-filter-grid">
+      <div class="quick-filter-block">
+        <div class="quick-filter-label">1. 언제?</div>
+        <div class="quick-chip-row" id="quick-periods"></div>
+      </div>
+      <div class="quick-filter-block">
+        <div class="quick-filter-label">2. 어떤 업무분장?</div>
+        <div class="quick-chip-row" id="quick-cats"></div>
+      </div>
+    </div>
+  </section>
 
   <div class="main">
     <aside class="side">
@@ -218,6 +286,14 @@ h1{font-size:22px;margin:0 0 4px 0;letter-spacing:-.03em;color:#0f172a}
     </aside>
 
     <section class="content">
+      <div class="content-intro">
+        <div>
+          <div class="content-eyebrow" id="content-eyebrow">이번 달 업무</div>
+          <h2 id="content-title">먼저 챙길 업무</h2>
+          <p id="content-desc">일정과 업무분장을 먼저 보고, 필요한 업무만 체크하세요.</p>
+        </div>
+        <div class="content-count" id="content-count">0개</div>
+      </div>
       <div class="toolbar">
         <div class="search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -225,7 +301,7 @@ h1{font-size:22px;margin:0 0 4px 0;letter-spacing:-.03em;color:#0f172a}
         </div>
         <select id="sort">
           <option value="default">기본 순서</option>
-          <option value="date">일정 빠른 순</option>
+          <option value="date" selected>일정 빠른 순</option>
           <option value="cat">업무분장 순</option>
           <option value="task">업무명 (가나다)</option>
         </select>
@@ -251,9 +327,30 @@ h1{font-size:22px;margin:0 0 4px 0;letter-spacing:-.03em;color:#0f172a}
   </div>
 </div>
 
+<div class="month-picker-modal" id="month-picker-modal" hidden>
+  <div class="month-picker-backdrop" onclick="closeMonthPicker()"></div>
+  <div class="month-picker-dialog" role="dialog" aria-modal="true" aria-labelledby="month-picker-title">
+    <div class="month-picker-head" id="month-picker-title">확인 체크 기준월</div>
+    <div class="month-picker-sub">월마다 체크 상태를 따로 저장할 수 있어요. 원하는 기준월을 선택해 주세요.</div>
+    <div class="month-picker-frame">
+      <div class="month-picker-yearbar">
+        <button class="month-picker-nav" type="button" aria-label="이전 해" onclick="shiftMonthPickerYear(-1)">‹</button>
+        <div class="month-picker-year" id="month-picker-year"></div>
+        <button class="month-picker-nav" type="button" aria-label="다음 해" onclick="shiftMonthPickerYear(1)">›</button>
+      </div>
+      <div class="month-picker-grid" id="month-picker-grid"></div>
+      <div class="month-picker-preview">선택한 기준월: <strong id="month-picker-selected"></strong></div>
+    </div>
+    <div class="month-picker-actions">
+      <button class="month-picker-btn primary" type="button" onclick="confirmMonthPicker()">확인</button>
+      <button class="month-picker-btn" type="button" onclick="closeMonthPicker()">취소</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const DATA = [{"no": 1, "date": "매월 초", "cat": "급여", "task": "출장여비 지급", "detail": "담당자 재량으로 지급일 정함", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 2, "date": "매월1일", "cat": "급여", "task": "교육공무직원 현원변동자료 제출", "detail": "퇴직, 복직 발생 시", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 3, "date": "매월1일", "cat": "급여", "task": "호봉 정기승급", "detail": "", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 4, "date": "매월1일", "cat": "지출", "task": "기관장 직책급 업무수행경비", "detail": "학교장 직책급\n월250천원(연 3,000천원)+12학급 기준으로 1학급 초과 시마다 월 4,000원 가산", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 5, "date": "매월5일까지", "cat": "세입", "task": "출납검사(학교회계, 세외계좌, 발전기금)", "detail": "", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 6, "date": "매월10일", "cat": "급여", "task": "월 급여마감(공무원, 무기계약공무직)", "detail": "", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 7, "date": "매월10일", "cat": "급여", "task": "4대보험 납부", "detail": "", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 8, "date": "매월10일", "cat": "급여", "task": "원천세신고 납부", "detail": "", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 9, "date": "매월12일", "cat": "지출", "task": "신용카드 대금 납부", "detail": "", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 10, "date": "매월15일", "cat": "급여", "task": "특수고용 월보수액신고", "detail": "", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 11, "date": "매월15일", "cat": "급여", "task": "특수형태고용자(방과후강사, 특성화강사) 월보수액신고(고용산재공단)", "detail": "일용근로자가 있다면 고용공단에서 신고해서 국세청연계처리하면 편함", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 12, "date": "매월15일", "cat": "세입", "task": "CMS수수료 납부", "detail": "매월 15일 이전 세금계산서 발행", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 13, "date": "매월15일경", "cat": "급여", "task": "교육공무직 대체, 시간강사, 지방공무원 대체 인건비 신청", "detail": "", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 14, "date": "매월3째주", "cat": "세입", "task": "eaT 식재료 구입 공고 및 계약", "detail": "소액수의 시 공고기간 3일 이상(초일불산입)", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 15, "date": "매월20일", "cat": "급여", "task": "4대보험 납부고지확인", "detail": "", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 16, "date": "매월20일까지", "cat": "감사", "task": "클린재정 자체점검 및 보고", "detail": "20일까지 클린재정 의무점검항목(10종) 소명(조치) 후 자체 점검결과 내부 보고, 소명하지 않을 경우 분기별로 공문옴", "dept": "지원청 재정지원과, 감사관", "law": "각급학교 학교회계 자체점검(자율적 내부통제) 운영 지침 개정 알림(감사관-9879, 2022.8.29.)", "memo": "", "period": "매월 반복"}, {"no": 17, "date": "매월25일", "cat": "지출", "task": "공공요금 납부", "detail": "", "dept": "", "law": "", "memo": "자동이체 유의", "period": "매월 반복"}, {"no": 18, "date": "매월25일경", "cat": "급여", "task": "4대보험 기관부담금 신청(통합급여교육공무직)", "detail": "", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 19, "date": "매월25일경", "cat": "지출", "task": "연간 용역 지출", "detail": "", "dept": "", "law": "", "memo": "자동이체 유의", "period": "매월 반복"}, {"no": 20, "date": "매월25일경", "cat": "산업안전보건", "task": "안전보건협의체 회의록, 점검표 작성", "detail": "", "dept": "", "law": "산업안전보건법 제64조(도급에 따른 산업재해 예방조치) 제1항 및 동법 시행규칙 제79조(협의체의 구성 및 운영), 제80조(도급사업 시의 안전·보건조치 등)", "memo": "", "period": "매월 반복"}, {"no": 21, "date": "매월27일", "cat": "지출", "task": "신용카드 대금 납부", "detail": "", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 22, "date": "매월 말", "cat": "급여", "task": "각종 인건비 지급(특고, 강사, 봉사료, 대체근로자등)", "detail": "특고(방과후강사, 유치원특성화강사) 있을 경우 말일까지 지급해야 다음달 월보수액 신고 시 헷갈리지 않음(일용근로신고도 마찬가지)\n(x월 근로/ x월 지급/ x+1월 신고)", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 23, "date": "매월 말", "cat": "급여", "task": "사업소득,기타소득 간이지급명세서,일용근로지급명세서 제출(국세청), 일용근로확인신고(고용산재공단)", "detail": "고용공단에서 근로확인신고하면서 국세청 연계신고하면 편함", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 24, "date": "매월 말", "cat": "세입", "task": "eaT수수료 납부", "detail": "매월 말 세금계산서 발행", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 25, "date": "격월 말일", "cat": "지출", "task": "상하수도 요금 납부", "detail": "", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 26, "date": "매 홀수월", "cat": "급여", "task": "교육공무직 근속연수 반영", "detail": "홀수(1,3,5,7,9,11)월 변동자 발생시", "dept": "", "law": "", "memo": "", "period": "매월 반복"}, {"no": 27, "date": "연5회", "cat": "환경위생", "task": "[소독] 방역소독", "detail": "4~9월: 2개월에1회 이상, 10월~3월: 3개월에1회 이상", "dept": "", "law": "감염병 예방 및 관리에 관한 법률 제51조(소독 의무),동법시행령시행령 제24조(소독을 해야 하는 시설)", "memo": "", "period": "분기/연간"}, {"no": 28, "date": "연2회", "cat": "지출", "task": "부가가치세 신고", "detail": "1월: 전년도 하반기, 7월: 현년도 상반기", "dept": "", "law": "부가가치세법 제48조(예정신고와 납부), 제49조(확정신고와 납부)", "memo": "", "period": "분기/연간"}, {"no": 29, "date": "연2회", "cat": "환경위생", "task": "[수도] 저수조 청소", "detail": "개학 직전∙후 청소 실시(상반기 2~3월, 하반기 8~9월)", "dept": "", "law": "수도법 시행규칙 제22조의4(대형건축물등의 소유자등이 해야 하는 소독등위생조치 등)", "memo": "수도사업소에서 저수조 청소∙수질검사 대상 제외여부 확인", "period": "분기/연간"}, {"no": 30, "date": "연2회", "cat": "환경위생", "task": "[공기질] 공기질 측정", "detail": "지원청 통합계약 처리함. 학교에서는 대금만 지급 \n※ 통합계약 미이용 학교는 직접 계약 후 처리", "dept": "평생교육건강과, 학교통합지원과", "law": "학교보건법 제4조(학교의 환경위생 및 식품위생), 학교보건법 시행규칙 제3조(환경위생 및 식품위생의 유지관리)", "memo": "", "period": "분기/연간"}, {"no": 31, "date": "연2회", "cat": "환경위생", "task": "[공기질] 공기질 점검결과 보고", "detail": "통합계약 신청 시 학교통합지원과에서 평생교육건강과로 결과보고 함\n※ 통합계약 미이용 학교의 경우 직접 결과보고 해야 하므로 유의", "dept": "", "law": "", "memo": "", "period": "분기/연간"}, {"no": 32, "date": "연1회", "cat": "세입", "task": "학교 기관카드 적립포인트 세입 조치", "detail": "", "dept": "", "law": "지방자치단체 회계관리에 관한 훈령 제120조(신용카드 사용에 따른 혜택의 조치)", "memo": "", "period": "분기/연간"}, {"no": 33, "date": "연1회", "cat": "보험", "task": "신원보증보험 가입(회계관계직원 재정보증 가입)", "detail": "학교장, 행정실장, 학교운영위원장, 행정실 주무관 가입", "dept": "", "law": "지방회계법 시행령 제56조(재정보증의 한도액 등)\n서울특별시 교육비특별회계 재무회계 규칙 제165조(재정보증)", "memo": "최소 1천만 원 이상, 임명된 날로부터 30일 이내에 보증보험을 통해 설정해야 하며, 교육감을 피보험인으로 하고 매년(1년 단위) 이를 갱신", "period": "분기/연간"}, {"no": 34, "date": "연1회", "cat": "보험", "task": "교육시설공제 정기가입", "detail": "11월경 약 3주간, 한국교육시설안전원 공제정보망(https://pot.koies.or.kr)에서 가입", "dept": "안전총괄담당관", "law": "", "memo": "", "period": "분기/연간"}, {"no": 35, "date": "연1회", "cat": "시설", "task": "[승강기] 승강기 정기검사", "detail": "", "dept": "", "law": "승강기 안전관리법 제28조(승강기의 설치검사) ,제32조(승강기의 안전검사)", "memo": "", "period": "분기/연간"}, {"no": 36, "date": "연1회", "cat": "시설", "task": "[가스] 도시가스 정기검사", "detail": "한국가스안전공사", "dept": "", "law": "도시가스사업법 제17조(정기검사 및 수시검사)  및 동법 시행규칙 제25조(정기검사)", "memo": "", "period": "분기/연간"}, {"no": 37, "date": "연1회", "cat": "시설", "task": "[하수] 정화조 청소", "detail": "구청과 연계된 업체에서 안내 옴. 정화도 유분제거와 같이 필요한 학교도 있음", "dept": "", "law": "하수도법 제39조(개인하수처리시설의 운영ㆍ관리), 시행규칙 제33조(개인하수처리시설의 관리기준)", "memo": "", "period": "분기/연간"}, {"no": 38, "date": "연1회", "cat": "환경위생", "task": "[수도] 저수조 수질검사", "detail": "먹는물, 화장실 세면시설로 연결된 저수조(소방용수 또는 화장실 용수 등으로만 사용되는 저수조는 제외)", "dept": "평생교육건강과, 학교통합지원과", "law": "수도법 시행규칙 제22조의4(대형건축물등의 소유자등이 해야 하는 소독등위생조치 등)", "memo": "수도사업소에서 저수조 청소∙수질검사 대상 제외여부 확인", "period": "분기/연간"}, {"no": 39, "date": "연1회", "cat": "교직원교육", "task": "업무추진비 교육", "detail": "보통 3월 실시", "dept": "", "law": "", "memo": "", "period": "분기/연간"}, {"no": 41, "date": "연1회", "cat": "학운위", "task": "정기회 개최", "detail": "회의 일수 및 회기 등 회의에 대한 사항은 학교운영위원회 규정으로 정함 다만, 회의는 학교 실정에 맞게 분기별 1회 \n이상 개최할 수 있도록 노력하여야 함", "dept": "", "law": "서울특별시교육청 공립학교 운영위원회 구성 및 운영 등에 관한 조례", "memo": "(정기회)학교운영위원회가 규정으로 정한 기일에 회의를 개최하는 것으로 보통 연 1회 개최 \n※위원 선출 후 최초로 소집되는 회의는 학교장이 위원의 임기개시일부터 15일 이내에 소집\n(임시회) 필요에 따라 수시로 개최하는 회의로 학교장 또는 재적위원 4분의 1 이상의 요구가 있는 때에 위원장이 소집, 위원장은 회의 개최 7일 전에 소집 공고 및 회의 안건을 첨부하여 위원에게 개별 통지", "period": "분기/연간"}, {"no": 42, "date": "연1회", "cat": "물품재산", "task": "정기재물조사", "detail": "물품관리 용역계약한 경우 용역과업에 재물조사 내용 포함 확인", "dept": "", "law": "공유재산 및 물품관리법 제60조 및 동법 시행령 제59조(정기재물조사)", "memo": "", "period": "분기/연간"}, {"no": 43, "date": "분기별1회", "cat": "환경위생", "task": "[먹는물] 먹는물 위생관리 보고", "detail": "수돗물, 정수기, 냉온수기, 저수조 등 먹는물에 대한 정기적인 수질검사 실시\n•정수기 분기별 1회 이상, 저수조 1년주기, 옥내급수관 2년주기로 수질검사\n•정수기 수질검사 및 저수조 청소는 반드시 1,2학기 개학 전 실시할 수 있도록 관리\n•정기적인 수질검사를 적시에 실시하여 분기별 먹는물 관리 현황 정확히 보고", "dept": "평생건강교육과", "law": "서울특별시교육청 학교 먹는물 관리 조례", "memo": "", "period": "분기/연간"}, {"no": 44, "date": "분기별1회", "cat": "환경위생", "task": "[먹는물] 정수기 수질검사", "detail": "", "dept": "평생교육건강과, 학교통합지원과", "law": "서울특별시교육청 학교 먹는물 관리 조례", "memo": "", "period": "분기/연간"}, {"no": 45, "date": "분기별1회", "cat": "환경위생", "task": "[먹는물] 아리수 음수대 수질검사", "detail": "", "dept": "해당지역 수도사업소, 서울아리수본부", "law": "학교 음수대 관리 매뉴얼", "memo": "", "period": "분기/연간"}, {"no": 46, "date": "분기별1회", "cat": "교직원교육", "task": "초과근무 교직원 교육", "detail": "주로 1학기 초에 실시", "dept": "", "law": "", "memo": "", "period": "분기/연간"}, {"no": 47, "date": "분기별1회", "cat": "산업안전보건", "task": "안전보건 분기별 회의", "detail": "", "dept": "", "law": "산업안전보건법 제24조(산업안전보건위원회) 및 동법 시행령 제37조(산업안전보건위원회의 회의 등)", "memo": "", "period": "분기/연간"}, {"no": 48, "date": "반기별1회", "cat": "교직원교육", "task": "교직원 보안교육(정기)", "detail": "주로 1학기 초, 2학기 초에 나누어 1번씩 실시", "dept": "", "law": "", "memo": "", "period": "분기/연간"}, {"no": 49, "date": "2년마다1회", "cat": "시설", "task": "[수도] 옥내급수관 검사", "detail": "서울시 저수조관리시스템에 결과(수질검사 성적서)입력 제출(업체에서 보통 입력해줌. 업체에 입력 여부 확인할 것)", "dept": "해당지역수도사업소 급수운영과", "law": "수도법 제33조(위생상의 조치 등)", "memo": "", "period": "분기/연간"}, {"no": 50, "date": "2년마다1회", "cat": "시설", "task": "[소방] 소방안전관리자 법정교육", "detail": "안전관리자 선임 또는 변경 시 6개월 이내", "dept": "", "law": "화재의 예방 및 안전관리에 관한 법률 제34조(소방안전관리자 등에 대한 교육)", "memo": "", "period": "분기/연간"}, {"no": 51, "date": "2년마다2회", "cat": "시설", "task": "[수도] 급수관 수질검사", "detail": "수돗물, 정수기, 냉온수기, 저수조 등 먹는물에 대한 정기적인 수질검사 실시\n•정수기 분기별 1회 이상, 저수조 1년주기, 옥내급수관 2년주기로 수질검사", "dept": "평생교육건강과, 학교통합지원과", "law": "서울특별시교육청 학교 먹는물 관리 조례", "memo": "", "period": "분기/연간"}, {"no": 52, "date": "3년마다1회", "cat": "시설", "task": "[가스] 도시가스 안전관리자 교육", "detail": "", "dept": "", "law": "도시가스사업법 시행규칙 제50조(안전교육)", "memo": "", "period": "분기/연간"}, {"no": 53, "date": "3년마다1회", "cat": "시설", "task": "[전기] 전기설비 정기검사", "detail": "", "dept": "", "law": "전기안전관리법 제11조(정기검사)", "memo": "", "period": "분기/연간"}, {"no": 54, "date": "4년마다1회", "cat": "시설", "task": "[가스] 정압기 분해점검", "detail": "", "dept": "", "law": "도시가스사업법 제17조(정기검사 및 수시검사) 및 동법 시행규칙 제25조(정기검사), 제26조(수시검사)", "memo": "", "period": "분기/연간"}, {"no": 55, "date": "인사이동시", "cat": "시설", "task": "[소방] 소방안전관리자 선임", "detail": "", "dept": "", "law": "공공기관의 소방안전관리에 관한 규정 제5조(소방안전관리자의 선임)", "memo": "", "period": "수시"}, {"no": 56, "date": "인사이동시", "cat": "시설", "task": "[가스] 특정가스 사용시설 안전관리자 선임", "detail": "인사이동일로부터 1년 이내", "dept": "", "law": "도시가스사업법 제29조(안전관리자) 제2항", "memo": "", "period": "수시"}, {"no": 57, "date": "근로자 퇴직시", "cat": "급여", "task": "보험 상실 신고, 나이스 중도정산, 홈택스 중도정산", "detail": "3개를 세트로 퇴직 후 2주 이내 한번에 처리하는 것이 편함\n(연가보상비 발생 or 퇴직연금 적립하고 있으면 함께 처리)\n무기계약직 퇴직의 경우 퇴직연금 본청 안내에 따라서 처리", "dept": "", "law": "", "memo": "", "period": "수시"}, {"no": 58, "date": "매월4일", "cat": "시설", "task": "위탁(소방.전기)안전점검 결과보고", "detail": "", "dept": "", "law": "재난 및 안전관리 기본법 시행령 제73조의6(안전점검의 날 등)", "memo": "", "period": "매월 반복"}, {"no": 59, "date": "매월4일", "cat": "시설", "task": "시설정기안전점검", "detail": "", "dept": "", "law": "재난 및 안전관리 기본법 시행령 제73조의6(안전점검의 날 등)", "memo": "", "period": "매월 반복"}, {"no": 63, "date": "사유 발생 시", "cat": "물품재산", "task": "[물품/재산/미술품] 취득, 불용, 손망실, 매각 시 처리", "detail": "통합자산관리 > 재산관리/물품관리/미술품관리 탭에서 처리", "dept": "", "law": "", "memo": "•관급자재: 재산시스템에 등재\n•소모품: 소모품 처리\n•도서/박물관유물, 소프트웨어/소프트웨어개발/교육콘텐츠: 기타자산에 등재\n•미술품: 미술품에 등재", "period": "수시"}, {"no": 64, "date": "사유 발생 시", "cat": "물품재산", "task": "[토지/건물/입목죽/기계기구/공작물] 재산 변동 있는 경우 처리", "detail": "통합자산관리 > 재산관리 > 재산대장관리 > 재산대장관리 탭에서 처리", "dept": "", "law": "", "memo": "", "period": "수시"}, {"no": 65, "date": "연1회", "cat": "물품재산", "task": "물품결산(현년도 물품 증감 및 현재액 보고서), 정수물품배정, 물품수급관리계획", "detail": "보통 연초 실시\n•물품결산(물품 증감 및 현재액 보고서)수량과 재물조사 수량이 반드시 일치하여야 함\n※ 물품결산서와 재물조사보고서 제출일 사이 기간에 물품 처분 지양(처분 시 기존 전자태그 별도 보관)\n•물품수급관리계획서 제출 전 정수물품 배정수량 현행화", "dept": "지원청 재정지원과", "law": "공유재산 및 물품관리법제57조 및 동법 시행령", "memo": "", "period": "분기/연간"}, {"no": 66, "date": "연1회", "cat": "물품재산", "task": "[4월까지] 전년도 정기 재물조사", "detail": "", "dept": "지원청 재정지원과", "law": "", "memo": "", "period": "분기/연간"}];
-const STATE = { cats:[], period:'전체', q:'', sort:'default' };
+const STATE = { cats:[], period:'매월 반복', q:'', sort:'date' };
 const CHECK_ACTIVE_MONTH_KEY = 'hakdolRoutineActiveCheckMonth';
 function monthKey(date){
   const y = date.getFullYear();
@@ -303,11 +400,52 @@ function setActiveCheckMonth(key){
   localStorage.setItem(CHECK_ACTIVE_MONTH_KEY, ACTIVE_CHECK_MONTH);
   renderList();
 }
-function changeCheckMonth(){
-  const next = prompt('확인 체크 기준월을 입력해주세요.\n예: 2026-06', ACTIVE_CHECK_MONTH);
-  if(next === null) return;
-  setActiveCheckMonth(next.trim());
+const MONTH_PICKER = { year:new Date().getFullYear(), selected:ACTIVE_CHECK_MONTH };
+const MONTH_LABELS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+function syncMonthPickerFromActive(){
+  const [y] = String(ACTIVE_CHECK_MONTH || CURRENT_MONTH_KEY).split('-');
+  MONTH_PICKER.selected = ACTIVE_CHECK_MONTH;
+  MONTH_PICKER.year = Number(y) || new Date().getFullYear();
 }
+function renderMonthPicker(){
+  const yearEl = document.getElementById('month-picker-year');
+  const gridEl = document.getElementById('month-picker-grid');
+  const selectedEl = document.getElementById('month-picker-selected');
+  if(!yearEl || !gridEl || !selectedEl) return;
+  yearEl.textContent = `${MONTH_PICKER.year}년`;
+  selectedEl.textContent = monthLabel(MONTH_PICKER.selected);
+  gridEl.innerHTML = MONTH_LABELS.map((label, idx)=>{
+    const mm = String(idx+1).padStart(2,'0');
+    const key = `${MONTH_PICKER.year}-${mm}`;
+    const active = key === MONTH_PICKER.selected;
+    return `<button class="month-tile ${active ? 'is-selected' : ''}" type="button" onclick="pickMonth('${key}')"><span class="month-tile-label">${label}</span></button>`;
+  }).join('');
+}
+function openMonthPicker(){
+  syncMonthPickerFromActive();
+  renderMonthPicker();
+  const modal = document.getElementById('month-picker-modal');
+  if(modal) modal.hidden = false;
+}
+function closeMonthPicker(){
+  const modal = document.getElementById('month-picker-modal');
+  if(modal) modal.hidden = true;
+}
+function shiftMonthPickerYear(delta){
+  MONTH_PICKER.year += delta;
+  const [, selectedMonth] = String(MONTH_PICKER.selected || '').split('-');
+  MONTH_PICKER.selected = `${MONTH_PICKER.year}-${selectedMonth || '01'}`;
+  renderMonthPicker();
+}
+function pickMonth(key){
+  MONTH_PICKER.selected = key;
+  renderMonthPicker();
+}
+function confirmMonthPicker(){
+  setActiveCheckMonth(MONTH_PICKER.selected);
+  closeMonthPicker();
+}
+function changeCheckMonth(){ openMonthPicker(); }
 function startCurrentMonthCheck(){ setActiveCheckMonth(CURRENT_MONTH_KEY); }
 function resetCurrentCheckMonth(){
   if(confirm(`${monthLabel(ACTIVE_CHECK_MONTH)} 체크 상태를 초기화할까요?\n업무 목록과 필터는 그대로 유지됩니다.`)){
@@ -349,6 +487,58 @@ function toggleCat(cat){
   }
 }
 
+
+function monthNowLabel(){
+  const d = new Date();
+  return `${d.getFullYear()}년 ${d.getMonth()+1}월`;
+}
+function renderQuickPanel(){
+  const nowEl = document.getElementById('task-first-now');
+  if(nowEl) nowEl.textContent = monthLabel(ACTIVE_CHECK_MONTH);
+  const cats = {};
+  const periods = {};
+  DATA.forEach(d=>{ cats[d.cat]=(cats[d.cat]||0)+1; periods[d.period]=(periods[d.period]||0)+1; });
+  const periodOrder = ['전체','매월 반복','분기/연간','수시'];
+  const pEl = document.getElementById('quick-periods');
+  if(pEl){
+    const isAllActive = (STATE.period || '전체') === '전체';
+    const chipHtml = periodOrder.filter(p=>p!=='전체' && periods[p]).map(p=>{
+      const cnt = periods[p];
+      const active = STATE.period===p;
+      return `<button type="button" class="quick-chip ${active?'active':''}" data-p="${p}">${p}<span class="qcnt">${cnt}</span></button>`;
+    }).join('');
+    pEl.innerHTML = `<div class="picker-wrap"><button type="button" class="summary-btn ${isAllActive?'active':''}" data-p="전체"><span class="label">전체</span><span class="cnt">${DATA.length}</span></button><div class="divider-line"></div><div class="chip-grid">${chipHtml}</div></div>`;
+    pEl.querySelectorAll('[data-p]').forEach(btn=>{ btn.onclick=()=>{ STATE.period=btn.dataset.p; render(); }; });
+  }
+  const catOrder = ['전체','급여','지출','세입','감사','시설','물품재산','환경위생','보험','교직원교육','산업안전보건','학운위'];
+  const cEl = document.getElementById('quick-cats');
+  if(cEl){
+    const activeAll = STATE.cats.length===0;
+    const chipHtml = catOrder.filter(c=>c!=='전체' && cats[c]).map(c=>{
+      const cnt = cats[c];
+      const active = STATE.cats.includes(c);
+      const mark = active ? '<span class="checkmark">✓</span>' : '';
+      return `<button type="button" class="quick-chip ${active?'active':''}" data-cat="${c}">${mark}${c}<span class="qcnt">${cnt}</span></button>`;
+    }).join('');
+    cEl.innerHTML = `<div class="picker-wrap"><button type="button" class="summary-btn ${activeAll?'active':''}" data-cat="전체"><span class="label">전체</span><span class="cnt">${DATA.length}</span></button><div class="divider-line"></div><div class="chip-grid">${chipHtml}</div></div>`;
+    cEl.querySelectorAll('[data-cat]').forEach(btn=>{ btn.onclick=()=>{ toggleCat(btn.dataset.cat); render(); }; });
+  }
+}
+function updateContentIntro(list){
+  const titleEl=document.getElementById('content-title');
+  const eyeEl=document.getElementById('content-eyebrow');
+  const descEl=document.getElementById('content-desc');
+  const countEl=document.getElementById('content-count');
+  const catLabel=selectedCatsLabel();
+  const periodLabel=STATE.period==='전체'?'전체 업무':STATE.period;
+  if(eyeEl) eyeEl.textContent = `${monthNowLabel()} 기준`;
+  if(titleEl) titleEl.textContent = `${periodLabel} · ${catLabel}`;
+  if(descEl) descEl.textContent = '일정과 업무분장이 먼저 보이도록 정리했습니다. 완료한 업무는 체크하고, 필요한 메모를 남겨두세요.';
+  if(countEl) countEl.textContent = `${list.length}개`;
+  const sortEl=document.getElementById('sort');
+  if(sortEl && sortEl.value !== STATE.sort) sortEl.value = STATE.sort;
+}
+
 function renderSidebar(){
   const cats = {};
   const periods = {};
@@ -356,28 +546,31 @@ function renderSidebar(){
     cats[d.cat] = (cats[d.cat]||0)+1;
     periods[d.period] = (periods[d.period]||0)+1;
   });
-  const catOrder = ['전체','급여','지출','세입','감사','환경위생','시설','보험','물품재산','교직원교육','산업안전보건','학운위'];
+  const catOrder = ['전체','급여','지출','세입','감사','시설','물품재산','환경위생','보험','교직원교육','산업안전보건','학운위'];
   const catEl = document.getElementById('cat-list');
-  catEl.innerHTML = catOrder.filter(c=>c==='전체'||cats[c]).map(c=>{
-    const cnt = c==='전체'?DATA.length:cats[c];
-    const active = c==='전체' ? STATE.cats.length===0 : STATE.cats.includes(c);
+  const activeAll = STATE.cats.length===0;
+  const chipHtml = catOrder.filter(c=>c!=='전체' && cats[c]).map(c=>{
+    const cnt = cats[c];
+    const active = STATE.cats.includes(c);
     const classes = ['item'];
-    if(active) classes.push('active');
-    if(c==='전체') classes.push('is-all');
-    else if(active) classes.push('is-multi-selected');
-    const mark = c!=='전체' && active ? '✓ ' : '';
-    return `<div class="${classes.join(' ')}" data-cat="${c}" aria-pressed="${active?'true':'false'}"><span>${mark}${c}</span><span class="cnt">${cnt}</span></div>`;
+    if(active) classes.push('active','is-multi-selected');
+    const mark = active ? '<span class="checkmark">✓</span>' : '';
+    return `<button type="button" class="${classes.join(' ')}" data-cat="${c}" aria-pressed="${active?'true':'false'}">${mark}<span>${c}</span><span class="cnt">${cnt}</span></button>`;
   }).join('');
-  catEl.querySelectorAll('.item').forEach(el=>{
+  catEl.innerHTML = `<div class="picker-wrap"><button type="button" class="summary-btn ${activeAll?'active':''}" data-cat="전체"><span class="label">전체</span><span class="cnt">${DATA.length}</span></button><div class="divider-line"></div><div class="chip-grid">${chipHtml}</div></div>`;
+  catEl.querySelectorAll('[data-cat]').forEach(el=>{
     el.onclick = ()=>{ toggleCat(el.dataset.cat); render(); };
   });
   const periodOrder = ['전체','매월 반복','분기/연간','수시'];
   const pEl = document.getElementById('period-list');
-  pEl.innerHTML = periodOrder.filter(p=>p==='전체'||periods[p]).map(p=>{
-    const cnt = p==='전체'?DATA.length:periods[p];
-    return `<div class="item ${STATE.period===p?'active':''}" data-p="${p}" aria-pressed="${STATE.period===p?'true':'false'}"><span>${p}</span><span class="cnt">${cnt}</span></div>`;
+  const isAllActive = (STATE.period || '전체') === '전체';
+  const periodChipHtml = periodOrder.filter(p=>p!=='전체' && periods[p]).map(p=>{
+    const cnt = periods[p];
+    const active = STATE.period===p;
+    return `<button type="button" class="item ${active?'active is-multi-selected':''}" data-p="${p}" aria-pressed="${active?'true':'false'}"><span>${p}</span><span class="cnt">${cnt}</span></button>`;
   }).join('');
-  pEl.querySelectorAll('.item').forEach(el=>{
+  pEl.innerHTML = `<div class="picker-wrap"><button type="button" class="summary-btn ${isAllActive?'active':''}" data-p="전체"><span class="label">전체</span><span class="cnt">${DATA.length}</span></button><div class="divider-line"></div><div class="chip-grid">${periodChipHtml}</div></div>`;
+  pEl.querySelectorAll('[data-p]').forEach(el=>{
     el.onclick = ()=>{ STATE.period = el.dataset.p; render(); };
   });
 }
@@ -436,9 +629,10 @@ function renderFilterSummary(list){
   const sortLabel = ({default:'기본 순서', date:'일정 빠른 순', cat:'업무분장 순', task:'업무명 순'})[STATE.sort] || '기본 순서';
   const qLabel = STATE.q ? `검색어: ${escapeHtml(STATE.q)}` : '검색어 없음';
   const checkedCount = readCheckedSet().size;
+  updateContentIntro(list);
   el.innerHTML = `
     <div class="filter-summary-main">
-      <div><strong>현재 보기</strong> · ${escapeHtml(catLabel)} / ${escapeHtml(periodLabel)} / ${escapeHtml(sortLabel)} / ${qLabel}</div>
+      <div><strong>지금 보이는 업무</strong> · ${escapeHtml(periodLabel)} / ${escapeHtml(catLabel)} / ${escapeHtml(sortLabel)} / ${qLabel}</div>
     </div>
     <div class="summary-tags">
       <span class="summary-tag">${list.length}개 표시</span>
@@ -470,12 +664,9 @@ function renderList(){
     const memoTextHtml = d.memo ? `<div class="memo-text">${escapeHtml(d.memo)}</div>` : '';
     const hasTagContent = (deptHtml || lawsHtml);
     const tagsBlock = hasTagContent ? `<div class="memo-tags">${deptHtml}${lawsHtml}</div>` : '';
-    const toggleBtn = hasTagContent
-      ? `<button class="tags-toggle" type="button" onclick="this.closest('.memo-cell').classList.toggle('tags-collapsed');this.textContent=this.closest('.memo-cell').classList.contains('tags-collapsed')?'부서·법령 보기 ▾':'접기 ▴'">접기 ▴</button>`
-      : '';
     const userMemoVal = escapeHtml(readUserMemo(d.no));
     const userMemoHtml = `<div class="user-memo-wrap"><textarea class="user-memo-input" rows="1" placeholder="내 메모 추가..." oninput="onUserMemoInput(${d.no},this);this.style.height='auto';this.style.height=this.scrollHeight+'px'">${userMemoVal}</textarea><div class="user-memo-saved">저장됨 ✓</div></div>`;
-    const memoCell = `${userMemoHtml}${memoTextHtml}${tagsBlock}${toggleBtn}`;
+    const memoCell = `${userMemoHtml}${memoTextHtml}${tagsBlock}`;
     const key = routineKey(d);
     const isChecked = checkedSet.has(key);
 
@@ -501,7 +692,7 @@ function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-function render(){ renderSidebar(); renderList(); resize(); }
+function render(){ renderQuickPanel(); renderSidebar(); renderList(); resize(); }
 
 function exportCSV(){
   const list = filterData();
@@ -543,6 +734,7 @@ document.getElementById('hero-all-btn')?.addEventListener('click', ()=>setPeriod
 document.querySelectorAll('[data-quick-period]').forEach(el=>{
   el.addEventListener('click', ()=>setPeriod(el.dataset.quickPeriod || '전체'));
 });
+window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeMonthPicker(); });
 window.addEventListener('load', ()=>{ render(); resize(); });
 window.addEventListener('resize', resize);
 render(); resize();
@@ -709,7 +901,7 @@ render(); resize();
     if (document.querySelector('.hakdol-topbar-v202606')) return;
     const bar = document.createElement('div');
     bar.className = 'hakdol-topbar-v202606';
-    bar.innerHTML = '<div class="hakdol-topbar-title-v202606"><strong>📋 행정실 루틴집</strong><span>매월·분기·연간 업무를 한눈에 확인합니다.</span></div><div class="hakdol-topbar-actions-v202606"><span class="hakdol-version-text-v202606" title="2026년 6월 기준 정리 자료">v.2026.6</span><button class="hakdol-topbar-btn-v202606 is-top-v202606" type="button" data-v202606-top>↑ 맨위</button><a class="hakdol-topbar-link-v202606" href="https://github.com/sen-vip/hakdol_routine.zip" target="_blank" rel="noopener noreferrer">GitHub</a></div>';
+    bar.innerHTML = '<div class="hakdol-topbar-title-v202606"><strong>📋 행정실 루틴집</strong><span>언제·업무분장·할 일을 먼저 보여줍니다.</span></div><div class="hakdol-topbar-actions-v202606"><span class="hakdol-version-text-v202606" title="2026년 6월 기준 정리 자료">v.2026.6</span><button class="hakdol-topbar-btn-v202606 is-top-v202606" type="button" data-v202606-top>↑ 맨위</button><a class="hakdol-topbar-link-v202606" href="https://github.com/sen-vip/hakdol_routine.zip" target="_blank" rel="noopener noreferrer">GitHub</a></div>';
     document.body.insertBefore(bar, document.body.firstChild);
   }
 
