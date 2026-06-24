@@ -739,7 +739,7 @@ window.addEventListener('load', ()=>{ render(); resize(); });
 window.addEventListener('resize', resize);
 render(); resize();
 </script>
-<!-- hakdol-v2026.6-bugfix-patch: 필터 초기화 버그 수정 + 검색창 X/CSV문구 정리 -->
+<!-- hakdol-v2026.6-bugfix-patch: 필터 초기화 버그 수정 + 검색창 X/CSV문구 정리 + 상단바 최대폭 고정 -->
 <style id="hakdol-v202606-bugfix-style">
   html { scroll-behavior: smooth; scroll-padding-top: 86px; }
   body.hakdol-v202606-bugfix-ready { padding-top: 0 !important; }
@@ -760,7 +760,23 @@ render(); resize();
     box-shadow: 0 8px 24px rgba(15, 23, 42, 0.055);
   }
 
-  .hakdol-topbar-title-v202606 { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .hakdol-topbar-inner-v202606 {
+    width: min(100%, 1180px);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .hakdol-topbar-title-v202606 { min-width: 0; display: flex; align-items: center; gap: 10px; }
+  .hakdol-topbar-title-copy-v202606 { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .hakdol-topbar-badge-v202606 {
+    width: 34px; height: 34px; flex: 0 0 34px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 12px; background: #eef6ff; border: 1px solid #d5e8ff;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+  }
+  .hakdol-topbar-spacer-v202606 { flex: 1 1 auto; min-width: 24px; }
   .hakdol-topbar-title-v202606 strong {
     color: #111827; font-size: 15px; font-weight: 900; letter-spacing: -0.02em;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -862,6 +878,9 @@ render(); resize();
   @media (max-width: 880px) {
     html { scroll-padding-top: 76px; }
     .hakdol-topbar-v202606 { padding: 10px 12px; gap: 8px; }
+    .hakdol-topbar-inner-v202606 { gap: 8px; }
+    .hakdol-topbar-title-v202606 { gap: 8px; }
+    .hakdol-topbar-badge-v202606 { width: 30px; height: 30px; flex-basis: 30px; border-radius: 10px; }
     .hakdol-topbar-title-v202606 strong { font-size: 13.5px; }
     .hakdol-topbar-title-v202606 span { display: none; }
     .hakdol-topbar-actions-v202606 { gap: 6px; }
@@ -871,8 +890,10 @@ render(); resize();
   }
   @media (max-width: 520px) {
     .hakdol-topbar-v202606 { align-items: flex-start; }
+    .hakdol-topbar-inner-v202606 { align-items: flex-start; }
     .hakdol-topbar-actions-v202606 { flex-wrap: wrap; justify-content: flex-end; max-width: 178px; }
     .hakdol-version-text-v202606 { order: -1; width: 100%; text-align: right; }
+    .hakdol-topbar-spacer-v202606 { min-width: 8px; }
   }
   @media print { .hakdol-topbar-v202606, .top-btn-v202606, .filter-reset-btn-v202606, .csv-note-v202606, .hakdol-search-clear-v202606 { display:none!important; } }
 </style>
@@ -1823,6 +1844,51 @@ render(); resize();
   @media (max-width: 640px) {
     body.hakdol-v202606-bugfix-ready .hakdol-topbar-title-v202606 span { white-space: normal !important; }
     body.hakdol-v202606-bugfix-ready .hakdol-topbar-btn-v202606.is-top-v202606 { display: none !important; }
+  }
+</style>
+
+
+<!-- hakdol-v202606-topbar-width-lock: 창 최대화 시 상단바 내부 기준선 고정 -->
+<style id="hakdol-v202606-topbar-width-lock-style">
+  body.hakdol-v202606-bugfix-ready .hakdol-topbar-v202606 {
+    box-sizing: border-box !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  body.hakdol-v202606-bugfix-ready .hakdol-topbar-inner-v202606 {
+    box-sizing: border-box !important;
+    width: min(calc(100% - 40px), 1180px) !important;
+    max-width: 1180px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: grid !important;
+    grid-template-columns: auto auto minmax(24px, 1fr) auto !important;
+    align-items: center !important;
+    gap: 16px !important;
+  }
+  body.hakdol-v202606-bugfix-ready .hakdol-topbar-title-v202606 {
+    grid-column: 1 !important;
+    justify-self: start !important;
+  }
+  body.hakdol-v202606-bugfix-ready .hakdol-version-text-v202606 { grid-column: 2 !important; }
+  body.hakdol-v202606-bugfix-ready .hakdol-topbar-spacer-v202606 { grid-column: 3 !important; min-width: 24px !important; }
+  body.hakdol-v202606-bugfix-ready .hakdol-topbar-actions-v202606 {
+    grid-column: 4 !important;
+    justify-self: end !important;
+  }
+  @media (max-width: 900px) {
+    body.hakdol-v202606-bugfix-ready .hakdol-topbar-v202606 {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    body.hakdol-v202606-bugfix-ready .hakdol-topbar-inner-v202606 {
+      width: calc(100% - 28px) !important;
+      max-width: none !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 8px !important;
+    }
   }
 </style>
 
