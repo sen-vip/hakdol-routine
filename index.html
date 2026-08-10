@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>학돌 루틴집 3.4.0</title>
+<title>학돌 루틴집 3.4.1</title>
 <link rel="icon" href="favicon.svg">
 <style>
 :root{--blue:#2563eb;--blue-dark:#1d4ed8;--ink:#0f172a;--text:#334155;--muted:#64748b;--soft:#f7faff;--line:#e5edf7;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--purple:#a855f7;--shadow:0 16px 38px rgba(15,23,42,.055);--r:18px}
@@ -162,16 +162,32 @@ html,body{max-width:100%;overflow-x:hidden}.top-in,.app,.main,.side,.card,.month
   .site-footer-in{align-items:flex-start}
 }
 
+
+/* v3.4.1 학돌랩 브랜드 서명 */
+.logo-title{display:inline-block}
+.lab-mark{display:inline-flex;align-items:center;justify-content:center;gap:5px;height:24px;padding:0 8px;border-radius:999px;border:1px solid #dbeafe;background:linear-gradient(180deg,#f8fbff 0%,#eef6ff 100%);color:#1d4ed8;font-size:10px;font-weight:800;line-height:1;letter-spacing:-.02em;box-shadow:0 4px 10px rgba(37,99,235,.07);white-space:nowrap}
+.lab-mark:before{content:"";width:5px;height:5px;border-radius:50%;background:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.10)}
+.footer-lab{color:#475569;font-weight:800}
+@media(max-width:720px){
+  .logo{gap:6px}
+  .lab-mark{height:21px;padding:0 6px;font-size:9px;gap:4px;box-shadow:none}
+  .lab-mark:before{width:4px;height:4px;box-shadow:0 0 0 2px rgba(59,130,246,.10)}
+}
+@media(max-width:360px){
+  .lab-mark{padding:0 5px;font-size:8.5px}
+  .top-export>summary{padding-left:7px;padding-right:7px}
+  .top-help{padding-left:7px;padding-right:7px}
+}
 </style>
 </head>
 <body>
-<header class="top"><div class="top-in"><div class="logo"><span class="logo-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5.5 5.2c1.8-.9 3.8-.9 5.8.1.4.2.7.6.7 1v12.4c0 .4-.4.7-.8.5-1.9-.9-3.8-.9-5.7 0-.4.2-.8-.1-.8-.5V6.1c0-.4.3-.7.8-.9Z"/><path d="M12 6.3c2-1 4-1 5.9-.1.4.2.7.5.7.9v11.6c0 .4-.4.7-.8.5-1.9-.9-3.8-.9-5.8 0"/><path d="m15.1 11.9 1.2 1.2 2.2-2.5"/></svg></span><span>학돌 루틴집</span></div><nav class="nav"><button class="active" data-jump="monthly">월별업무</button><button data-jump="cycle">주기업무</button><button data-jump="situation">상황업무</button><button data-focus-search>검색</button></nav><button class="icon-btn" data-focus-search aria-label="검색">⌕</button><button class="t-btn" data-t><span class="t-emoji" aria-hidden="true">🤖</span> 학돌T</button><div class="top-actions" aria-label="주요 기능"><details class="export-menu top-export" id="exportMenu"><summary>엑셀 다운로드</summary><div class="export-pop"><button type="button" data-export="current">현재 보기<small>지금 화면에 보이는 업무만</small></button><button type="button" data-export="mine">개인별 연간업무<small>선택한 담당업무 기준 전체</small></button><button type="button" data-export="all">전체 연간업무<small>루틴집 전체 업무자료</small></button></div></details><button type="button" class="top-help" id="helpOpen">도움말</button></div></div></header>
+<header class="top"><div class="top-in"><div class="logo"><span class="logo-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5.5 5.2c1.8-.9 3.8-.9 5.8.1.4.2.7.6.7 1v12.4c0 .4-.4.7-.8.5-1.9-.9-3.8-.9-5.7 0-.4.2-.8-.1-.8-.5V6.1c0-.4.3-.7.8-.9Z"/><path d="M12 6.3c2-1 4-1 5.9-.1.4.2.7.5.7.9v11.6c0 .4-.4.7-.8.5-1.9-.9-3.8-.9-5.8 0"/><path d="m15.1 11.9 1.2 1.2 2.2-2.5"/></svg></span><span class="logo-title">학돌 루틴집</span><span class="lab-mark" aria-label="학돌랩 브랜드">학돌랩</span></div><nav class="nav"><button class="active" data-jump="monthly">월별업무</button><button data-jump="cycle">주기업무</button><button data-jump="situation">상황업무</button><button data-focus-search>검색</button></nav><button class="icon-btn" data-focus-search aria-label="검색">⌕</button><button class="t-btn" data-t><span class="t-emoji" aria-hidden="true">🤖</span> 학돌T</button><div class="top-actions" aria-label="주요 기능"><details class="export-menu top-export" id="exportMenu"><summary>엑셀 다운로드</summary><div class="export-pop"><button type="button" data-export="current">현재 보기<small>지금 화면에 보이는 업무만</small></button><button type="button" data-export="mine">개인별 연간업무<small>선택한 담당업무 기준 전체</small></button><button type="button" data-export="all">전체 연간업무<small>루틴집 전체 업무자료</small></button></div></details><button type="button" class="top-help" id="helpOpen">도움말</button></div></div></header>
 <div class="app"><aside class="side" id="side"></aside><main class="main"><section class="card timeline-card" id="timeline"></section><section class="card section" id="monthly"></section><div class="grid2"><section class="card section" id="cycle"></section><section class="card section" id="situation"></section></div></main></div>
-<footer class="site-footer"><div class="site-footer-in"><span>학돌 루틴집 · 학교 행정업무 탐색 도구</span><a href="https://github.com/sen-vip/hakdol-routine" target="_blank" rel="noopener noreferrer">GitHub</a></div></footer>
+<footer class="site-footer"><div class="site-footer-in"><span><strong class="footer-lab">학돌랩</strong> · 학돌 루틴집 · 학교 행정업무 탐색 도구</span><a href="https://github.com/sen-vip/hakdol-routine" target="_blank" rel="noopener noreferrer">GitHub</a></div></footer>
 <div class="help-backdrop" id="helpModal" hidden>
   <section class="help-dialog" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
     <div class="help-head">
-      <div><div class="help-eyebrow">학돌 루틴집</div><h2 id="helpTitle">도움말</h2></div>
+      <div><div class="help-eyebrow">학돌랩 · 학돌 루틴집</div><h2 id="helpTitle">도움말</h2></div>
       <button type="button" class="help-close" id="helpClose" aria-label="도움말 닫기">×</button>
     </div>
     <div class="help-body">
